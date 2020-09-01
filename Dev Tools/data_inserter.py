@@ -3,6 +3,8 @@ import os
 
 #Usage: data_inserter.py <rom> <file to insert> <rom offset>
 
+print (sys.argv)
+
 rom_path = sys.argv[1]
 to_insert_path = sys.argv[2]
 rom_offset = int(sys.argv[3], 16)

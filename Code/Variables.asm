@@ -36,8 +36,7 @@ y_offset		    EQU $FF9A ;  8 bit - I use it for Y offset
 check_direction	    EQU $FF9B ;  8 bit
 curr_obj_type	    EQU $FF9C ;  8 bit
 curr_onscreen_check	EQU $FF9D ;  8 bit
-temp1           	EQU $FFAC ;  8 bit
-temp2           	EQU $FFAD ;  8 bit
+curr_despawn_check	EQU $FFAE ;  8 bit
 
 ;Sprites
 player_direction    EQU $FF9E
