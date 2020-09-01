@@ -11,10 +11,9 @@ include "Code/ObjGemPurple.asm"
 ;   1 byte - Position Y
 ;   1 byte - Position X
 ;   1 byte - Rotation
-;   1 byte - State:
-;       0 - Normal
-;       1 - Off screen
-;       2 - Schedule despawn (distance)
+;   8 bits - State:
+;       0 - Off screen
+;       2 - Too far away (despawn)
 ;
 ;Object Table notes:
 ;   - ID $00 means not initialized (if $00 encountered in list, cut the loop short)
@@ -508,6 +507,9 @@ CleanObjectTable:
         cp $FF
         jr nz, .afterLoop2
         ld [hl], 0
+        inc l
+        ld [hl], 0
+        dec l
         jr .findTrueEndOfTable
 
     .afterLoop2
@@ -515,11 +517,135 @@ CleanObjectTable:
     pop hl
     ret
 
+;If an enemy is too far away from the player, despawn the enemy
+ObjectDespawnCheck:
+    push hl
+    push bc
+    push de
+
+    ;get current object index
+    ld a, [curr_despawn_check]
+    ld e, a ; -> curr_onscreen_check into E, this is for updating curr_onscreen_check later
+    ld b, 0
+    ;multiply it by 16
+    swap a
+    ld d, a
+    and $0F
+    ld b, a
+    ld a, d
+    and $F0
+    ld c, a
+    ;store it into bc
+    ld c, a
+    ;and add it to hl
+    ld hl, object_table
+    add hl, bc
+    
+    ;Check if valid object id
+    ld a, [hl]
+    ld d, a ; store A in D, we'll need this later
+    or a ; cp 0 ; if 0, restart loop
+    jr z, .goToStart
+    inc a ; if $ff
+    jr z, .skipThisEntry
+
+    ;Move to position
+    inc l
+    inc l 
+
+    ;Y position - when an object is at the top of the screen, camera_y*2 = object_y
+    ld a, [camera_y] ; camera_y is in 16x16 space
+    or a ; 16x16 -> 8x8
+    rla
+    ld c, a ; store A in C as well, we'll use this later
+    ld b, [hl] ; object_y is in 8x8 space
+
+    ;Check if too far away at the top
+    sub 18 ; check for 18 tiles (screen height) above the screen view
+    sub b ; apply object position
+    jr nc, .despawn; if the result is positive, the object is too far away, despawn it
+
+    ;Check if too far away at the bottom
+    ld a, c ; refresh A
+    add 36 ; check for 18 tiles (screen height) below the screen view
+    sub b ; apply object position
+    jr c, .despawn ; if the result is negative, the object is too far away, despawn it
+
+    ;X position - when an object is at the left of the screen, camera_x*2 = object_x
+    inc l
+    ld a, [camera_x] ; camera_y is in 16x16 space
+    or a ; 16x16 -> 8x8
+    rla
+    ld c, a ; store A in C as well, we'll use this later
+    ld b, [hl] ; object_y is in 8x8 space
+
+    ;Check if too far away at the left
+    sub 20 ; check for 20 tiles (screen width) to the left of the screen view
+    sub b ; apply object position
+    jr nc, .despawn; if the result is positive, the object is too far away, despawn it
+
+    ;Check if too far away at the bottom
+    ld a, c ; refresh A
+    add 40 ; check for 20 tiles (screen width) to the right of the screen view
+    sub b ; apply object position
+    jr c, .despawn ; if the result is negative, the object is too far away, despawn it
+
+.skipThisEntry
+    ld hl, curr_despawn_check
+    inc [hl]
+
+    pop de
+    pop bc
+    pop hl
+    ret
+
+.despawn
+    ;reset pointer to start of array
+    ld a, l
+    and $F0
+    ld l, a
+
+    ;remove object from object table
+    ld a, $ff
+    ld [hl+], a
+    ld [hl+], a
+    ld [hl+], a
+
+    ;high byte
+    ld h, high(object_slots_occupied)
+
+    ;low byte
+    ld a, [curr_despawn_check] ; object index
+    ld l, a ; write low byte
+
+    ld [hl], $FF ; clear byte
+
+    ;Clean object table
+    call CleanObjectTable
+
+    ;Move to next entry
+    ld hl, curr_despawn_check
+    inc [hl]
+    
+    pop de
+    pop bc
+    pop hl
+    ret
+
+.goToStart
+    ld hl, curr_despawn_check
+    ld [hl], 0
+
+    pop de
+    pop bc
+    pop hl
+    ret
+
 RunSubroutine:
     jp hl
 
 SECTION "Object Subroutines", ROM0, ALIGN[8]
-ObjectSubroutines:
+ObjectSubroutines: ; Object logic
     dw ObjNone_Update       ; 00 - none
     dw ObjEnemyStill_Update ; 01 - ObjEnemyStill
     dw ObjNone_Update       ; 02 - ObjGemRed

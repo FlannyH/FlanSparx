@@ -49,6 +49,7 @@ GameLoop:
 	call CheckObjectsOnScreen
 	call CheckObjectsOnScreen
 	call CheckObjectsOnScreen
+	call ObjectDespawnCheck
 
 	call waitVBlank
 	call UpdateHUD
