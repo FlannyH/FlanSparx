@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
+ <editorsettings>
+  <export target="32test.csv" format="csv"/>
+ </editorsettings>
+ <tileset firstgid="1" source="C:/Users/Jelle/tilesettu32.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="32" height="32">
+  <data encoding="base64" compression="zstd">
+   KLUv/WAAD20DAHgCAAAABAQEBAQEBAQEBAIzoJC9ABCDGRo41cIfFie/55kYmlXSVz0XnCbovxNIvaqDou/x8k06qOOEgnXWCbPqjIMouBDwF3K4zCvPml0f7XD60gpeJyeFnCz4sbqZMBe1LjjTwI8YiYxwdX4=
+  </data>
+ </layer>
+</map>

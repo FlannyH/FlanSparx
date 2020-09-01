@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="68" height="58" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
+ <editorsettings>
+  <export target="Crawdad Farm.csv" format="csv"/>
+ </editorsettings>
+ <tileset firstgid="1" source="tileset_crawdad.tsx"/>
+ <tileset firstgid="129" source="newtileset.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="68" height="58" offsetx="4.5" offsety="1">
+  <data encoding="base64" compression="zstd">
+   KLUv/WCgPNUVACLKJC1wibMAgCqgCqgCqqDViNlvzkg2MhtSsrXSttyZZHOu7Db972vG//////9r+QGzZnPeSF4xxovDmDCLRCNjwaBCU6FAa2NJD4ALuDdy2rP26uiUtqpU1mle/4QeufAQIf/oPBv0R46CA0xoOBCAFDZBCoEBYjMoIBjofs7xa5I/8t/Hj/3bD/ktnVjVn/31vV/6aYD3qEHqxJIWcIIZgKE6OBLgEARJgoojyFiCBCTIOEKChA4JmUAJgEHK2LUFLcKLwgiLDNrnpfF9602McAtN10PzjxSfJwsPwYVNHbgQNxoVj08v0U2NLMS2/nlzENQgWLtEMUs5XS+/5x1a0CgjIr2wVWdureFi6LlcnLAwgppvk8dBqXkycgEeaNty+kZEGwU8HLJ4WM5ETVMYLowg4fzlmixgWPzcbwDydROCIwIedWK3Ot0EMVHkCtQnXJjophFpRJyB7YqaCPJhK8a/sMA0SxAjWu9lmnh6wSsseaDIK6kcgah/aMmnF3BM4RMFcAg58Hk6QVen/Tgj2Exs7MHhI8j2MjzJK6iT5276HNnkFZb++1Pzd3cffwSuWTcEC2Dr70qPQFY4Muzf1keQxKXM35zxUyAe1jdCP2MOZMOTXBjQsjQFLEy/IbE6f4v7qbmB6Hwgf+qttcFs2TXNwtgadqv3t/a/dAdnGlF75poRYi9vmR6bYJODtHJLZASqh1sP7Q2OuJyjkFtjt9B5beAqI0gnW77uQSy7b+xOvT8ZMwJ0GE8KGlGXl3O0t552z2oEZzQxBnzne/5Y5DjHoWlEJ/vC6gZbvnIhuhB4IzInnrHtz49jvFDMQgswp/ZwCynbJ30ExDxXMNtIZax4o3uHY+HCLqOFTtjmqM7e3ts2xjubCxM+WFb9sxQ7c2dJAS17XehmhpLLN+CFBEwxO1XF2h/+
+  </data>
+ </layer>
+</map>

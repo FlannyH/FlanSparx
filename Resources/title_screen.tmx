@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="20" height="18" tilewidth="8" tileheight="8" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" source="C:/Users/Jelle/TITLE.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="20" height="18">
+  <data encoding="base64" compression="zstd">
+   KLUv/WCgBM0HAGZXLy0QuTQAA0VRFEVRFEVRFEVRFEVRMLLJngjgz8UER0QAqEZEADQiAlRVVVXB/D4iACIAIgAhHu7whjN84QpPOMIPbvACgg9c4AEH+O665+J+u+210/YGU45ycpOXnOQjF3nIQf5xj3ecY+MazzjGL27xilN84hKPOIWCDvSf+7znPN+5znOO85vbvIbmM5d5zGH+cpe3nOUrVzmq1VOPwc76XP+8s78ueyvqUH+605uYvnSlJx3pRzd60Yk+dBQA+GUlscfzsa4ibC3FhnJvBbcg+/aOBiBA3pFzhfNlloBmxxSaXdDoAqUOKHVcwUzALE/ZdtBlAQ==
+  </data>
+ </layer>
+</map>
