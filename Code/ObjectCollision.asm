@@ -287,3 +287,4 @@ BulletHitObjectSubroutines:
     dw ObjNone_Update    ; 04 - ObjGemBlue
     dw ObjNone_Update    ; 05 - ObjGemYellow
     dw ObjNone_Update    ; 06 - ObjGemPurple
+    dw hitByBullet_Enemy ; 07 - ObjEnemyMove

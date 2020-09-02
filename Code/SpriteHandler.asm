@@ -18,10 +18,18 @@ PrepareSpriteData:
 
 HandleSprites:
     call HandlePlayerSprite
+
+    ;Copy sprites to OAM
     ld  a, HIGH(wShadowOAM)
     di
     call hOAMDMA
     ei
+
+    ;Flip the half timer
+    ld a, [booleans]
+    xor (1<<B_HALFTIMER)
+    ld [booleans], a
+
     ret
 
 HandlePlayerSprite:

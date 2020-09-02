@@ -21,7 +21,7 @@ bullet_positions        EQU $C000 ;  12x8 bit (y1, x1, y2, x2, ... ,y8, x8). pos
 bullet_directions       EQU $C00C ;  12x8 bit (y1, x1, y2, x2, ... ,y8, x8)
 bullet_life_times       EQU $C018 ;  8x8 bit 
 current_fire_rate       EQU $FF96 ;  8 bit
-booleans                EQU $FF97 ;  8 bit, bit 7 - strafing, 6 - load odd row
+booleans                EQU $FF97 ;  8 bit, bit 7 - strafing, 6 - half timer
 current_gem_count       EQU $FFAA ;  8 bit
 current_gem_dec1        EQU $FFAB ;  8 bit
 current_gem_dec2        EQU $FFAC ;  8 bit
@@ -64,6 +64,10 @@ debug8          EQU $FFF8
 
 ;Objects
 object_table    EQU $D000
+
+;Booleans
+B_STRAFING      EQU 7
+B_HALFTIMER     EQU 6
 
 ;Joypad bits
 J_RIGHT         EQU 0

@@ -130,3 +130,4 @@ PlayerHitObjectSubroutines:
     dw PlayerCollision_GemBlue   ; 04 - ObjGemBlue
     dw PlayerCollision_GemYellow ; 05 - ObjGemYellow
     dw PlayerCollision_GemPurple ; 06 - ObjGemPurple
+    dw hitByPlayer_Enemy         ; 07 - ObjEnemyMove
