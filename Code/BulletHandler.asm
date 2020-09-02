@@ -70,8 +70,8 @@ TryToSpawnBullet:
     ld l, a
     ld [hl], $12
 .SetDirection
-    ;hl = direction2vector[player_direction]
-    ld hl, direction2vector 
+    ;hl = direction2vector_bullet[player_direction]
+    ld hl, direction2vector_bullet 
     ld a, [player_direction]
     rlca ; vector is 2 bytes
     add l
@@ -227,7 +227,7 @@ UpdateBulletObjects:
     ret
 
 SECTION "Bullet Direction LUT", ROM0,ALIGN[4]
-direction2vector:
+direction2vector_bullet:
     db 0, -6 ;N
     db 6, -6 ;NE
     db 6, 0  ;E

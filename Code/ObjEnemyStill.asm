@@ -117,9 +117,9 @@ ObjEnemyStill_Update:
     inc l
     ld [hl], a
 
-    ld [debug2], a
-    ld a, c
-    ld [debug1], a
+    ;ld [debug2], a
+    ;ld a, c
+    ;ld [debug1], a
 
     pop hl
     pop de

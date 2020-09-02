@@ -5,6 +5,7 @@ include "Code/ObjGemGreen.asm"
 include "Code/ObjGemBlue.asm"
 include "Code/ObjGemYellow.asm"
 include "Code/ObjGemPurple.asm"
+include "Code/ObjEnemyMove.asm"
 ;Object data structure (16 bytes per object):
 ;   1 byte - ID
 ;   1 byte - Type
@@ -13,7 +14,8 @@ include "Code/ObjGemPurple.asm"
 ;   1 byte - Rotation
 ;   8 bits - State:
 ;       0 - Off screen
-;       2 - Too far away (despawn)
+;   1 byte - Fine Position Y
+;   1 byte - Fine Position X
 ;
 ;Object Table notes:
 ;   - ID $00 means not initialized (if $00 encountered in list, cut the loop short)
@@ -238,7 +240,7 @@ UpdateObjectOAM:
     ;Run object code
     dec e ; move to object id
     ld a, [de] ; read it
-    or a ; multiply by 2
+    or a ; multiply by 2 to create subroutine offset
     rla
 
     ;get address for object subroutine
@@ -264,6 +266,17 @@ UpdateObjectOAM:
     ld a, [abs_scroll_y]
 
     ld b, a
+    ;get fine offset y -> C
+    inc e
+    inc e
+    inc e
+    inc e
+    ld a, [de]
+    ld c, a
+    dec e
+    dec e
+    dec e
+    dec e
     ld a, [de]
     
     ;position from 16x16 tile -> pixel
@@ -271,13 +284,25 @@ UpdateObjectOAM:
     rla
     rla
     rla
-
     sub b
-    ld [hli], a
+    add c ; fine position offset
+
+    ld [hli], a ; write to shadow oam
 
     ; X position
     ;load coordinates - abs_scroll_x, and check if not too far off screen
     inc e
+
+    inc e
+    inc e
+    inc e
+    inc e
+    ld a, [de]
+    ld c, a
+    dec e
+    dec e
+    dec e
+    dec e
     ld a, [abs_scroll_x]
     ld b, a
     ld a, [de]
@@ -288,9 +313,10 @@ UpdateObjectOAM:
     rla
     rla
     sub 12 ; sprite offset
-
     sub b
-    ld [hli], a
+    add c ; fine position x
+
+    ld [hl+], a ; write to shadow oam
 
     inc l
     inc l
@@ -302,6 +328,17 @@ UpdateObjectOAM:
     ld a, [abs_scroll_y]
 
     ld b, a
+    ;get fine offset y -> C
+    inc e
+    inc e
+    inc e
+    inc e
+    ld a, [de]
+    ld c, a
+    dec e
+    dec e
+    dec e
+    dec e
     ld a, [de]
     
     ;position from 16x16 tile -> pixel
@@ -311,11 +348,23 @@ UpdateObjectOAM:
     rla
 
     sub b
+    add c
     ld [hli], a
 
     ; X position
     ;load coordinates - abs_scroll_x
     inc e
+    ;get fine offset x -> C
+    inc e
+    inc e
+    inc e
+    inc e
+    ld a, [de]
+    ld c, a
+    dec e
+    dec e
+    dec e
+    dec e
     ld a, [abs_scroll_x]
     ld b, a
     ld a, [de]
@@ -328,6 +377,7 @@ UpdateObjectOAM:
     sub 4
 
     sub b
+    add c
     ld [hli], a
     jr .afterUpdate
 
@@ -653,6 +703,7 @@ ObjectSubroutines: ; Object logic
     dw ObjNone_Update       ; 04 - ObjGemBlue
     dw ObjNone_Update       ; 05 - ObjGemYellow
     dw ObjNone_Update       ; 06 - ObjGemPurple
+    dw ObjEnemyMove_Update  ; 07 - ObjEnemyMove
 
 SECTION "Sprite Drawing Subroutines", ROM0, ALIGN[8]
 SpriteDrawingSubroutines:
@@ -663,6 +714,7 @@ SpriteDrawingSubroutines:
     dw DrawSprite_GemBlue   ; 04 - ObjGemBlue
     dw DrawSprite_GemYellow ; 05 - ObjGemYellow
     dw DrawSprite_GemPurple ; 06 - ObjGemPurple
+    dw DrawSprite_Enemy     ; 07 - ObjEnemyMove
 
 SECTION "Object Graphics Metadata", ROM0, ALIGN[8]
 ObjectDisplayType:
