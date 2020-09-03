@@ -162,15 +162,11 @@ DisableWindow:
 	;Disable window
 	ld a, [rLCDC]
 	and ~LCDCF_WINON
-	ld [rLCDC], a
 
 	;Enable sprites
-	ld a, [rLCDC]
 	or LCDCF_OBJON
-	ld [rLCDC], a
 
     ;Switch back to map tileset
-    ld a, [rLCDC]
     and ~LCDCF_BG8000
     ld [rLCDC], a
 
@@ -185,15 +181,11 @@ EnableWindow:
 	;After VBLANK, enable the window layer for the GUI	
 	ld a, [rLCDC]
 	or LCDCF_WINON
-	ld [rLCDC], a
 	
 	;Disable sprites
-	ld a, [rLCDC]
 	and ~LCDCF_OBJON
-	ld [rLCDC], a
 
     ;Switch to sprite/ui tileset
-    ld a, [rLCDC]
     or LCDCF_BG8000
     ld [rLCDC], a
 

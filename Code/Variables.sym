@@ -37,7 +37,11 @@
 00:FFA4 gameboy_type
 00:FFA5 curr_bank
 00:FFA6 music_registers
-00:FFAC rows_to_load
+00:FFAA current_gem_count
+00:FFAB current_gem_dec1
+00:FFAC current_gem_dec2
+00:FFAD player_health
+00:FFAE curr_despawn_check
 00:FFF0 frame_counter
 00:FFF1 debug1
 00:FFF2 debug2

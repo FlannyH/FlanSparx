@@ -163,54 +163,41 @@ GetPlayerSpriteID:
 	;UP
 	ld a, [joypad_current] ; joypad_current -> A
 	and $0F ; mask for only dpad
+	ld b, 0 ; B = SPRITE_N
 	cp (JF_UP)
-	ld a, SPRITE_N ; A = SPRITE_N
 	jr z, .done ; goto .done
 	;UP RIGHT
-	ld a, [joypad_current] ; joypad_current -> A
-	and $0F ; mask for only dpad
+	inc b ; B = SPRITE_NE
 	cp (JF_UP + JF_RIGHT)
-	ld a, SPRITE_NE ; A = SPRITE_N
 	jr z, .done ; goto .done
 	;RIGHT
-	ld a, [joypad_current] ; joypad_current -> A
-	and $0F ; mask for only dpad
+	inc b ; B = SPRITE_E
 	cp (JF_RIGHT)
-	ld a, SPRITE_E ; A = SPRITE_N
 	jr z, .done ; goto .done
 	;DOWN RIGHT
-	ld a, [joypad_current] ; joypad_current -> A
-	and $0F ; mask for only dpad
+	inc b ; B = SPRITE_SE
 	cp (JF_DOWN + JF_RIGHT)
-	ld a, SPRITE_SE ; A = SPRITE_N
 	jr z, .done ; goto .done
 	;DOWN
-	ld a, [joypad_current] ; joypad_current -> A
-	and $0F ; mask for only dpad
+	inc b ; B = SPRITE_S
 	cp (JF_DOWN)
-	ld a, SPRITE_S ; A = SPRITE_N
 	jr z, .done ; goto .done
 	;DOWN LEFT
-	ld a, [joypad_current] ; joypad_current -> A
-	and $0F ; mask for only dpad
+	inc b ; B = SPRITE_SW
 	cp (JF_DOWN + JF_LEFT)
-	ld a, SPRITE_SW ; A = SPRITE_N
 	jr z, .done ; goto .done
 	;LEFT
-	ld a, [joypad_current] ; joypad_current -> A
-	and $0F ; mask for only dpad
+	inc b ; B = SPRITE_W
 	cp (JF_LEFT)
-	ld a, SPRITE_W ; A = SPRITE_N
 	jr z, .done ; goto .done
 	;TOP LEFT
-	ld a, [joypad_current] ; joypad_current -> A
-	and $0F ; mask for only dpad
+	inc b ; B = SPRITE_NW
 	cp (JF_UP + JF_LEFT)
-	ld a, SPRITE_NW ; A = SPRITE_N
 	jr z, .done ; goto .done
 	;If no buttons are pressed:
 	ret
 .done
+	ld a, b
 	ld [player_direction], a
 	ret
 
