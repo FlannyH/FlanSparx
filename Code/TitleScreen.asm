@@ -10,7 +10,7 @@ PrepareTitleScreenData:
     	ld hl, $FF68 ; Palette select register
     	xor a ; ld a, 0
     	or %10000000
-    	ld [hli], a
+    	ld [hl+], a
 
     	ld b, 16 ; 16 bytes for 2 palettes
     	ld de, PalettesTitleScreenBG
@@ -52,7 +52,7 @@ PrepareTitleScreenData:
             ;copy a byte from DE to HL, then increase both
             ld a, [de]
             inc de
-            ld [hli], a
+            ld [hl+], a
             dec c
             jr nz, .xLoop
         ld a, l

@@ -59,7 +59,7 @@ HandlePlayerSprite:
     ld b, a
     ld a, [player_y]
     add b
-    ld [hli], a ; write
+    ld [hl+], a ; write
     inc e
 
     ;write player_x + order
@@ -67,15 +67,15 @@ HandlePlayerSprite:
     ld b, a
     ld a, [player_x]
     add b
-    ld [hli], a ; write
+    ld [hl+], a ; write
     inc e
 
     ;write the other 2 bytes
     ld a, [de]; read
-    ld [hli], a ; write
+    ld [hl+], a ; write
     inc e
     ld a, [de]; read
-    ld [hli], a ; write
+    ld [hl+], a ; write
     inc e
 
     dec c
@@ -94,7 +94,7 @@ CopyDMARoutine:
   ld  b, DMARoutineEnd - DMARoutine ; Number of bytes to copy
   ld  c, LOW(hOAMDMA) ; Low byte of the destination address
 .copy
-  ld  a, [hli]
+  ld  a, [hl+]
   ldh [c], a
   inc c
   dec b

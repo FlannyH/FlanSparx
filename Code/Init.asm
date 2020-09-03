@@ -40,7 +40,7 @@ Init:
 	ld hl, rBCPS ; Palette select register
 	xor a ; ld a, 0
 	or %10000000
-	ld [hli], a
+	ld [hl+], a
 
 	ld b, 8*8 ; 8 bytes for 1 palettes
 	ld de, PalettesBG
@@ -55,7 +55,7 @@ Init:
 	ld hl, rOCPS ; Palette select register
 	xor a ; ld a, 0
 	or %10000000
-	ld [hli], a
+	ld [hl+], a
 
 	ld b, 8*8 ; 8 bytes for 1 palette
 	ld de, PalettesOBJ

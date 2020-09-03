@@ -49,7 +49,7 @@ joypad_pressed	EQU $FFA2 ; 8 bit
 joypad_released	EQU $FFA3 ; 8 bit
 gameboy_type    EQU $FFA4 ; 8 bit, $01-GB/SGB, $FF-GBP, $11-GBC
 curr_bank       EQU $FFA5 ; 8 bit
-music_registers EQU $FFA6 ; 6x8 bit, BC, DE, HL
+music_registers EQU $FFA6 ; 3x8 bits
 
 ;Debug variables
 frame_counter	EQU $FFF0 ; 8 bit, increases with every VBLANK
