@@ -90,7 +90,7 @@ ENDM
 
 Memcpy:
 	ld a, [de] ; Read one byte
-	ld [hli], a ; Write it to the destination
+	ld [hl+], a ; Write it to the destination
 	inc de ; Go to next byte
 	dec bc ; Decrement counter
 	ld a, b ; or B and C together and check if it's zero
@@ -100,7 +100,7 @@ Memcpy:
 
 Memcpy8:
 	ld a, [de] ; Read one byte
-	ld [hli], a ; Write it to the destination
+	ld [hl+], a ; Write it to the destination
 	inc de ; Go to next byte
 	dec b ; Decrement counter
 	jr nz, Memcpy8 ; if it's not zero, keep going
@@ -109,7 +109,7 @@ Memcpy8:
 Memcpy_gpu:
 	waitForRightVRAMmode
 	ld a, [de] ; Read one byte
-	ld [hli], a ; Write it to the destination
+	ld [hl+], a ; Write it to the destination
 	inc de ; Go to next byte
 	dec bc ; Decrement counter
 	ld a, b ; or B and C together and check if it's zero

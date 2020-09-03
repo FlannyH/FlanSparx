@@ -164,16 +164,16 @@ DrawSprite_Enemy:
 
     ;left
     ld a, [de]
-    ld [hli], a
+    ld [hl+], a
     inc e
     ld a, [de]
-    ld [hli], a
+    ld [hl+], a
     inc e
     inc l
     inc l
     ;right
     ld a, [de]
-    ld [hli], a
+    ld [hl+], a
     inc e
     ld a, [de]
     ld [hl], a

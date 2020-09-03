@@ -14,16 +14,16 @@ DrawSprite_GemRed:
 
     ;left
     ld a, [de]
-    ld [hli], a
+    ld [hl+], a
     inc de
     ld a, [de]
-    ld [hli], a
+    ld [hl+], a
     inc de
     inc l
     inc l
     ;right
     ld a, [de]
-    ld [hli], a
+    ld [hl+], a
     inc de
     ld a, [de]
     ld [hl], a

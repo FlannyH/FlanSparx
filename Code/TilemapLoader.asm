@@ -16,7 +16,7 @@ GetMapMetadata:
 	
 	;REPEAT 2 TIMES
 .mapMetadataLoop
-	ld a, [hli] ; Read one byte
+	ld a, [hl+] ; Read one byte
 	ld [de], a ; store it in de
 	inc de ; move to next byte
 	dec b ; decrease counter

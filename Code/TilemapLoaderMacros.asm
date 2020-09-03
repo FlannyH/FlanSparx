@@ -24,7 +24,7 @@ write16x16tileToVRAM: MACRO
 		;WAIT FOR VRAM ACCESS
 		di
 		waitForRightVRAMmode
-		ld [hli], a ; write byte to vram
+		ld [hl+], a ; write byte to vram
 		inc a
 		ld [hl], a ; write byte to vram
 		inc a
@@ -33,7 +33,7 @@ write16x16tileToVRAM: MACRO
 		waitForRightVRAMmode
 		ld bc, $1F
 		add hl, bc
-		ld [hli], a ; write byte to vram
+		ld [hl+], a ; write byte to vram
 		inc a
 		ld [hl], a ; write byte to vram
 		ei
@@ -69,11 +69,11 @@ ApplyPalette: MACRO
 	di
 	waitForRightVRAMmode
 ;write palette data
-	ld [hli], a
+	ld [hl+], a
 	ld [hl], a
 	ld bc, $1F
 	add hl, bc
-	ld [hli], a
+	ld [hl+], a
 	ld [hl], a
 	ei
 	pop de

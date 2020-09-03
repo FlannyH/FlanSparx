@@ -54,14 +54,14 @@ TryToSpawnBullet:
     ld a, [player_y]
     add 4 ; offset to make it spawn from the middle of the player
     add b ; correct for scroll
-    ld [hli], a
+    ld [hl+], a
 
     ld a, [abs_scroll_x] ; abs_scroll_x -> b
     ld b, a
     ld a, [player_x]
     add 4 ; offset to make it spawn from the middle of the player
     add b ; correct for scroll
-    ld [hli], a
+    ld [hl+], a
 .SetTimer
     ;hl = bullet_life_times + offset
     ld hl, bullet_life_times
@@ -136,7 +136,7 @@ UpdateBulletObjects:
     ld l, a
     ld a, [hl]
     add d
-    ld [hli], a
+    ld [hl+], a
     ld a, [hl]
     add e
     ld [hl], a
@@ -160,7 +160,7 @@ UpdateBulletObjects:
     ld b, a
     ld a, [de] ; x coordinate -> A
     sub b ; A -= abs_scroll_y
-    ld [hli], a
+    ld [hl+], a
 
 ;get x coordinate of current bullet
     ld de, bullet_positions
@@ -174,7 +174,7 @@ UpdateBulletObjects:
     ld b, a
     ld a, [de] ; x coordinate -> A
     sub b ; A -= abs_scroll_x
-    ld [hli], a
+    ld [hl+], a
 ;set sprite tile
     ld [hl], SPRITE_BULLET
     inc l

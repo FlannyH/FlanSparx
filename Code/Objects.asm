@@ -287,7 +287,7 @@ UpdateObjectOAM:
     sub b
     add c ; fine position offset
 
-    ld [hli], a ; write to shadow oam
+    ld [hl+], a ; write to shadow oam
 
     ; X position
     ;load coordinates - abs_scroll_x, and check if not too far off screen
@@ -349,7 +349,7 @@ UpdateObjectOAM:
 
     sub b
     add c
-    ld [hli], a
+    ld [hl+], a
 
     ; X position
     ;load coordinates - abs_scroll_x
@@ -378,7 +378,7 @@ UpdateObjectOAM:
 
     sub b
     add c
-    ld [hli], a
+    ld [hl+], a
     jr .afterUpdate
 
 
