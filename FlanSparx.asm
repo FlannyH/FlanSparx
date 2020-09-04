@@ -38,12 +38,13 @@ GameLoop:
 	ei
 	call GetJoypadStatus
 	call HandleInput
+	call CheckIfFlickeringNecessary
+	call HandleSpriteFlickering
 	call HandleSprites
 	call UpdateBulletObjects
 	call UpdateBulletCollision
 	call PlayerObjectCollision
 
-	call CheckIfFlickeringNecessary
 
     call UpdateObjectOAM
 	

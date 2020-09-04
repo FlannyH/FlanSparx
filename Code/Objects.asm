@@ -263,7 +263,7 @@ UpdateObjectOAM:
     pop hl
 
     inc e
-
+.leftSprite
     ;LEFT SPRITE
     ; Y position
     ;load coordinates - abs_scroll_y
@@ -325,7 +325,7 @@ UpdateObjectOAM:
     inc l
     inc l
     dec e
-
+.rightSprite
     ;RIGHT SPRITE
     ; Y position
     ;load coordinates - abs_scroll_y

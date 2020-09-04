@@ -67,8 +67,9 @@ debug8          EQU $FFF8
 object_table    EQU $D000
 
 ;Booleans
-B_STRAFING      EQU 7
-B_HALFTIMER     EQU 6
+B_STRAFING          EQU 7
+B_HALFTIMER         EQU 6
+B_FLICKERSPRITES    EQU 5
 
 ;Joypad bits
 J_RIGHT         EQU 0

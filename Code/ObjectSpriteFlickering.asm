@@ -50,13 +50,25 @@ CheckIfFlickeringNecessary:
 
 .CheckEveryPossibleScanline
     call GetCurrentYcoordinateCount
-    ;TODO - handle the output
+    ;If there are 4 objects on 1 scanline, there are 8 sprites on that scanline, which can be 10 if the player's there too
+    ;To make sure every object is visible, enable flickering when there are 5 or more on one line
+    ld a, b
+    cp 5
+    jr nc, .enableSpriteFlickering
+
     call GetNextLowestScanline
     ld a, c
     inc a
     or a ; cp 0
     jr nz, .CheckEveryPossibleScanline
-
+.endOfSubroutine
+    ld hl, booleans
+    res B_FLICKERSPRITES, [hl]
+    pop hl
+    ret
+.enableSpriteFlickering
+    ld hl, booleans
+    set B_FLICKERSPRITES, [hl]
     pop hl
     ret
 
@@ -77,13 +89,14 @@ GetCurrentYcoordinateCount:
     jr z, .dontIncrement
 
     ;get the tile y coordinate. is it the same as the one we're looking for? increase B
-    ld a, [hl-] ; load y coordinate, and prepare for next item
+    ld a, [hl] ; load y coordinate
     cp c ; if it's the same as the one we compare with, increment B
     jr nz, .dontIncrement
 
     inc b
 
     .dontIncrement
+    dec l
     add hl, de
     jr .getCountLoop
 
@@ -157,4 +170,40 @@ GetNextLowestScanline:
     ld c, b
     ld a, c
     ld [debug5], a
+    ret
+
+HandleSpriteFlickering:
+    push hl
+
+    ;Only flicker if necessary
+    ld hl, booleans
+    bit B_FLICKERSPRITES, [hl]
+    jr z, .end
+
+    ;If flickering is necessary, set every other sprite entry in the OAM to have a Y coordinate of 0, hiding them
+    ;Do all the left sprites one frame, then do all the right sprite another frame
+    ld a, [hl] ; booleans
+    and (1 << B_HALFTIMER) ; this sets A to 0 if left sprites, and to 32 if right sprites
+    ;Since an OAM entry is 4 bytes, we need to divide by 8
+    or a
+    rra
+    rra
+    rra
+    rra
+    ;Load the pointer to shadow OAM, and add the offset
+    ld hl, sprites_objects
+    add l
+    ld l, a
+
+    ld b, 16 ; amount of objects to handle
+    ld de, 8 ; amount to add to HL after one loop (basically move to next object)
+
+    .hidingLoop
+        ld [hl], 0
+        add hl, de
+        dec b
+        jr nz, .hidingLoop
+
+.end 
+    pop hl
     ret
