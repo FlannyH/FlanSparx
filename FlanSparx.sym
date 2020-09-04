@@ -50,8 +50,8 @@
 00:02b7 MoveStack.loop
 00:02bd DisableWindow
 00:02c1 DisableWindow.waitForMode_1
-00:02d6 EnableWindow
-00:02e6 LYinterrupt
+00:02d4 EnableWindow
+00:02e2 LYinterrupt
 00:0300 TilePaletteMapping
 00:0340 WaveStart
 00:0362 WaveStart.GameboyColorTimingSoSkipTheOtherOne
