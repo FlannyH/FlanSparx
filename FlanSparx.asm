@@ -14,6 +14,7 @@ INCLUDE "Code/WaveMusic.asm"
 INCLUDE "Code/ObjectCollision.asm"
 INCLUDE "Code/PlayerObjectInteraction.asm"
 INCLUDE "Code/UserInterface.asm"
+INCLUDE "Code/ObjectSpriteFlickering.asm"
 
 SECTION "Header", ROM0[$100]
 
@@ -37,10 +38,13 @@ GameLoop:
 	ei
 	call GetJoypadStatus
 	call HandleInput
+	call CheckIfFlickeringNecessary
+	call HandleSpriteFlickering
 	call HandleSprites
 	call UpdateBulletObjects
 	call UpdateBulletCollision
 	call PlayerObjectCollision
+
 
     call UpdateObjectOAM
 	
@@ -50,6 +54,7 @@ GameLoop:
 	call CheckObjectsOnScreen
 	call CheckObjectsOnScreen
 	call ObjectDespawnCheck
+	
 
 	call waitVBlank
 	call UpdateHUD

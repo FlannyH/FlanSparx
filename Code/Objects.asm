@@ -108,6 +108,10 @@ SpawnObject:
     inc l
     ld [hl], d ; write x position
 
+;Update enemy count
+    ld hl, curr_enemy_count
+    inc [hl]
+
 .end
     pop de
     pop bc
@@ -259,7 +263,7 @@ UpdateObjectOAM:
     pop hl
 
     inc e
-
+.leftSprite
     ;LEFT SPRITE
     ; Y position
     ;load coordinates - abs_scroll_y
@@ -321,7 +325,7 @@ UpdateObjectOAM:
     inc l
     inc l
     dec e
-
+.rightSprite
     ;RIGHT SPRITE
     ; Y position
     ;load coordinates - abs_scroll_y
@@ -676,6 +680,10 @@ ObjectDespawnCheck:
 
     ;Clean object table
     call CleanObjectTable
+
+    ;Decrease enemy count
+    ld hl, curr_enemy_count
+    dec [hl]
 
     ;Move to next entry
     ld hl, curr_despawn_check

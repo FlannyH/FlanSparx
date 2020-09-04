@@ -37,6 +37,7 @@ check_direction	    EQU $FF9B ;  8 bit
 curr_obj_type	    EQU $FF9C ;  8 bit
 curr_onscreen_check	EQU $FF9D ;  8 bit
 curr_despawn_check	EQU $FFAE ;  8 bit
+curr_enemy_count    EQU $FFAF ;  8 bit
 
 ;Sprites
 player_direction    EQU $FF9E
@@ -66,8 +67,9 @@ debug8          EQU $FFF8
 object_table    EQU $D000
 
 ;Booleans
-B_STRAFING      EQU 7
-B_HALFTIMER     EQU 6
+B_STRAFING          EQU 7
+B_HALFTIMER         EQU 6
+B_FLICKERSPRITES    EQU 5
 
 ;Joypad bits
 J_RIGHT         EQU 0

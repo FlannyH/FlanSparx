@@ -10,7 +10,6 @@ BulletObjectCollision:
 
         ld a, [de] ; Get object type
         push af ; we'll need that later
-        ;ld [debug1], a
         
         or a ; cp $00 - none type
         jr z, .endLoop
@@ -34,13 +33,11 @@ BulletObjectCollision:
         ld d,d
         ;get object Y -> B
         ld a, [bc]
-        ;ld [debug2], a
         push bc
         ld b, a
 
         ;get bullet Y -> A
         ld a, [hl]
-        ;ld [debug3], a
 
         cp a, b ; bul - obj
         jr c, .skipEntry ; if below 0, no collision (if (bul - obj) < 0)
@@ -53,14 +50,12 @@ BulletObjectCollision:
         pop bc
         inc c
         ld a, [bc]
-        ;ld [debug2], a
         push bc
         ld b, a
 
         ;get bullet X -> A
         inc l
         ld a, [hl]
-        ;ld [debug3], a
 
 
         cp a, b ; bul - obj
@@ -98,7 +93,7 @@ BulletObjectCollision:
         ret
     .skipEntry
         ld a, 0
-        ld [debug4], a
+        ld [debug1], a
         pop bc
 
         ;OAM - Snap to start of entry, and add 8 to go to the next object (1 object = 2 sprite, 1 sprite = 4 bytes)
@@ -228,6 +223,10 @@ SetObjectDestroyed:
     ld [hl], a
 
     ld d, d
+
+    ;Decrease object count
+    ld hl, curr_enemy_count
+    dec [hl]
 
     call CleanObjectTable
 
