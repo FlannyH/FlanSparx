@@ -613,13 +613,15 @@ ObjectDespawnCheck:
     ;Check if too far away at the top
     sub 18 ; check for 18 tiles (screen height) above the screen view
     sub b ; apply object position
-    jr nc, .despawn; if the result is positive, the object is too far away, despawn it
+    bit 7, a
+    jr z, .despawn; if the result is positive, the object is too far away, despawn it
 
     ;Check if too far away at the bottom
     ld a, c ; refresh A
     add 36 ; check for 18 tiles (screen height) below the screen view
     sub b ; apply object position
-    jr c, .despawn ; if the result is negative, the object is too far away, despawn it
+    bit 7, a
+    jr nz, .despawn ; if the result is negative, the object is too far away, despawn it
 
     ;X position - when an object is at the left of the screen, camera_x*2 = object_x
     inc l
@@ -632,13 +634,15 @@ ObjectDespawnCheck:
     ;Check if too far away at the left
     sub 20 ; check for 20 tiles (screen width) to the left of the screen view
     sub b ; apply object position
-    jr nc, .despawn; if the result is positive, the object is too far away, despawn it
+    bit 7, a
+    jr z, .despawn; if the result is positive, the object is too far away, despawn it
 
     ;Check if too far away at the bottom
     ld a, c ; refresh A
     add 40 ; check for 20 tiles (screen width) to the right of the screen view
     sub b ; apply object position
-    jr c, .despawn ; if the result is negative, the object is too far away, despawn it
+    bit 7, a
+    jr nz, .despawn ; if the result is negative, the object is too far away, despawn it
 
 .skipThisEntry
     ld hl, curr_despawn_check

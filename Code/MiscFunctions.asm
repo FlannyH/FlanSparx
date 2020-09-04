@@ -159,15 +159,13 @@ MoveStack:
 DisableWindow:
     waitForRightVRAMmode
 
-	;Disable window
+	;Disable window and switch back to map tileset
 	ld a, [rLCDC]
-	and ~LCDCF_WINON
+	and ~(LCDCF_WINON | LCDCF_BG8000)
 
 	;Enable sprites
 	or LCDCF_OBJON
 
-    ;Switch back to map tileset
-    and ~LCDCF_BG8000
     ld [rLCDC], a
 
 	;Trigger an interrupt when it enters Vblank, so it can enable the window again for the next frame
@@ -178,15 +176,13 @@ DisableWindow:
 	reti
 
 EnableWindow:
-	;After VBLANK, enable the window layer for the GUI	
+	;After VBLANK, enable the window layer for the GUI, and switch to sprite/ui tileset	
 	ld a, [rLCDC]
-	or LCDCF_WINON
+	or LCDCF_WINON | LCDCF_BG8000
 	
 	;Disable sprites
 	and ~LCDCF_OBJON
 
-    ;Switch to sprite/ui tileset
-    or LCDCF_BG8000
     ld [rLCDC], a
 
 	;Trigger an interrupt so it stops displaying the window after 16 scanlines
