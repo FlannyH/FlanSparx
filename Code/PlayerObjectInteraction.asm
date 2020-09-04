@@ -9,7 +9,6 @@ PlayerObjectCollision:
 
         ld a, [de] ; Get object type
         push af ; we'll need that later
-        ;ld [debug1], a
         
         or a ; cp $00 - none type
         jr z, .endLoop
@@ -33,13 +32,11 @@ PlayerObjectCollision:
         ld d,d
         ;get object Y -> B
         ld a, [bc]
-        ;ld [debug2], a
         push bc
         ld b, a
 
         ;get player Y -> A
         ld a, [player_y]
-        ;ld [debug3], a
         add 8
         cp a, b ; bul - obj
         jr c, .skipEntry ; if below 0, no collision (if (bul - obj) < 0)
@@ -52,14 +49,12 @@ PlayerObjectCollision:
         pop bc
         inc c
         ld a, [bc]
-        ;ld [debug2], a
         push bc
         ld b, a
 
         ;get player X -> A
         inc l
         ld a, [player_x]
-        ;ld [debug3], a
 
         add 8
         cp a, b ; bul - obj
@@ -97,7 +92,7 @@ PlayerObjectCollision:
         ret
     .skipEntry
         ld a, 0
-        ld [debug4], a
+        ld [debug2], a
         pop bc
 
         ;OAM - Snap to start of entry, and add 8 to go to the next object (1 object = 2 sprite, 1 sprite = 4 bytes)
