@@ -15,6 +15,7 @@ ClearRAM:
 	jr nz, .fillRAMwithZeros
 	ret
 	
+;Same as above, except for HRAM
 ClearHRAM:
 	ld hl, $FFFE ; set pointer to HRAM
 	xor a ; ld a, $00 ; the value we're gonna fill the ram with
@@ -32,6 +33,7 @@ SetupInterrupts:
 	ei
 	ret
 
+;Wait for the LCD to finish drawing the screen
 waitVBlank:
 	ei
 .wait
@@ -79,6 +81,7 @@ CalculateAbsoluteScroll: MACRO
 	pop bc
 ENDM
 	
+;Wait for VRAM to unlock
 waitForRightVRAMmode: MACRO
 	push hl
 	ld hl, rSTAT
@@ -88,6 +91,8 @@ waitForRightVRAMmode: MACRO
 	pop hl
 ENDM
 
+;Copy a block of data
+;Input - DE: source, HL: destination, BC: length
 Memcpy:
 	ld a, [de] ; Read one byte
 	ld [hl+], a ; Write it to the destination
@@ -98,23 +103,14 @@ Memcpy:
 	jr nz, Memcpy ; if it's not zero, keep going
 	ret
 
+;Copy a block of data, difference is that this subroutine is specific for blocks of 256 bytes or less
+;Input - DE: source, HL: destination, B: length
 Memcpy8:
 	ld a, [de] ; Read one byte
 	ld [hl+], a ; Write it to the destination
 	inc de ; Go to next byte
 	dec b ; Decrement counter
 	jr nz, Memcpy8 ; if it's not zero, keep going
-	ret
-	
-Memcpy_gpu:
-	waitForRightVRAMmode
-	ld a, [de] ; Read one byte
-	ld [hl+], a ; Write it to the destination
-	inc de ; Go to next byte
-	dec bc ; Decrement counter
-	ld a, b ; or B and C together and check if it's zero
-	or c
-	jr nz, Memcpy_gpu ; if it's not zero, keep going
 	ret
 
 waitForPlayerToPressStart:
@@ -137,6 +133,7 @@ waitForPlayerToPressStart:
 	pop af
 	ret
 
+;Very specific subroutine; copy the stack from the default HRAM to WRAM, then move the stack pointer as well
 MoveStack:
 	;We're going to work our way up the stack
 	;Load SP into HL and DE

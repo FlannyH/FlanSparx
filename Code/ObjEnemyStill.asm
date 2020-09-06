@@ -122,7 +122,7 @@ ObjEnemyStill_Update:
     pop bc
     ret
 
-;Input: DE - will be loaded as HL, BC - idk yet i'll find out later
+;Input: DE - will be loaded as HL, B - object slot
 DrawSprite_Enemy:
 ;- Update Sprite
     ld l, e

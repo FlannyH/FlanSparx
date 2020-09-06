@@ -72,9 +72,9 @@ CheckIfFlickeringNecessary:
     pop hl
     ret
 
+;Count the amount of objects with this y tile coordinate
 ;Input: C - tile y coordinate to compare with, Output: B - object count
 GetCurrentYcoordinateCount:
-    ;Count the amount of objects with this y tile coordinate
     ld h, high(object_table)
     ld l, 1
     ld b, 0 ; object count on this y coordinate
@@ -172,6 +172,7 @@ GetNextLowestScanline:
     ld [debug5], a
     ret
 
+;Hide one half of the sprite one frame, then the other one frame, repeat
 HandleSpriteFlickering:
     push hl
 
@@ -206,4 +207,130 @@ HandleSpriteFlickering:
 
 .end 
     pop hl
+    ret
+
+;Writes an object into OAM, getting the position and direction from RAM
+;Input:
+; DE 
+WriteSpriteButFlickering:
+.leftSprite
+    ;LEFT SPRITE
+    ; Y position
+    ;load coordinates - abs_scroll_y
+    ld a, [abs_scroll_y]
+
+    ld b, a
+    ;get fine offset y -> C
+    inc e
+    inc e
+    inc e
+    inc e
+    ld a, [de]
+    ld c, a
+    dec e
+    dec e
+    dec e
+    dec e
+    ld a, [de]
+    
+    ;position from 16x16 tile -> pixel
+    or a
+    rla
+    rla
+    rla
+    sub b
+    add c ; fine position offset
+
+    ld [hl+], a ; write to shadow oam
+
+    ; X position
+    ;load coordinates - abs_scroll_x, and check if not too far off screen
+    inc e
+
+    inc e
+    inc e
+    inc e
+    inc e
+    ld a, [de]
+    ld c, a
+    dec e
+    dec e
+    dec e
+    dec e
+    ld a, [abs_scroll_x]
+    ld b, a
+    ld a, [de]
+    
+    ;position from 16x16 tile -> pixel
+    or a
+    rla
+    rla
+    rla
+    sub 12 ; sprite offset
+    sub b
+    add c ; fine position x
+
+    ld [hl+], a ; write to shadow oam
+
+    inc l
+    inc l
+    dec e
+.rightSprite
+    ;RIGHT SPRITE
+    ; Y position
+    ;load coordinates - abs_scroll_y
+    ld a, [abs_scroll_y]
+
+    ld b, a
+    ;get fine offset y -> C
+    inc e
+    inc e
+    inc e
+    inc e
+    ld a, [de]
+    ld c, a
+    dec e
+    dec e
+    dec e
+    dec e
+    ld a, [de]
+    
+    ;position from 16x16 tile -> pixel
+    or a
+    rla
+    rla
+    rla
+
+    sub b
+    add c
+    ld [hl+], a
+
+    ; X position
+    ;load coordinates - abs_scroll_x
+    inc e
+    ;get fine offset x -> C
+    inc e
+    inc e
+    inc e
+    inc e
+    ld a, [de]
+    ld c, a
+    dec e
+    dec e
+    dec e
+    dec e
+    ld a, [abs_scroll_x]
+    ld b, a
+    ld a, [de]
+    
+    ;position from 16x16 tile -> pixel
+    or a
+    rla
+    rla
+    rla
+    sub 4
+
+    sub b
+    add c
+    ld [hl+], a
     ret

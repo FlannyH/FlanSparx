@@ -1,5 +1,5 @@
 SECTION "Controls", ROM0
-
+;Gets the current joypad status, compares it to the last joypad status, and writes the press, hold and release states to RAM
 GetJoypadStatus:
 	push hl
 	push bc
@@ -56,7 +56,7 @@ GetJoypadStatus:
 	pop bc
 	pop hl
 	ret
-;
+;Handles player input and moves the player, shoots bullets, etc
 HandleInput:
 	;Input
 	ld a, [joypad_current] ; Get current joypad state -> B
@@ -87,7 +87,7 @@ HandleInput:
 	call nz, ToggleStrafe
 	ret
 
-
+;If the player presses down, move down
 JoypadDown:
 	push af
 	push bc
@@ -103,6 +103,8 @@ JoypadDown:
 	pop bc
 	pop af
 	ret
+
+;If the player presses up, move up
 JoypadUp:
 	push af
 	push bc
@@ -119,6 +121,7 @@ JoypadUp:
 	pop af
 	ret
 
+;If the player presses left, move left
 JoypadLeft:
 	push af
 	push bc
@@ -135,6 +138,7 @@ JoypadLeft:
 	pop af
 	ret
 	
+;If the player presses right, move right
 JoypadRight:
 	push af
 	push bc
@@ -157,9 +161,8 @@ ToggleStrafe:
 	ld [booleans], a
 	ret
 
-
+;Use the joypad input, check all possible directions to see which way the player is facing. Then update the player object in OAM
 GetPlayerSpriteID:
-	;Check all possible directions, to see which way the player is facing. Then update the object in OAM
 	;UP
 	ld a, [joypad_current] ; joypad_current -> A
 	and $0F ; mask for only dpad

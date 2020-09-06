@@ -1,4 +1,5 @@
 SECTION "Sprite Handler", ROM0
+;Copy game sprites to VRAM, and copy the DMA routine to HRAM
 PrepareSpriteData:
     push de
     push hl
@@ -16,6 +17,7 @@ PrepareSpriteData:
     pop de
     ret
 
+;Update the player sprite, copy shadow OAM to real OAM, and flip the half timer
 HandleSprites:
     call HandlePlayerSprite
 
@@ -32,15 +34,13 @@ HandleSprites:
 
     ret
 
+;Copy PlayerSpriteOrder into shadow oam
+;Get the sprite order pointer. sprite orders are aligned to $xx00, so to get the right order, we just take the ID, multiply it by 16, 
+;then take the high bit of the sprite order pointer
 HandlePlayerSprite:
     push hl
     push bc
     push de
-    ;Copy PlayerSpriteOrder into shadow oam
-    ;Get the sprite order pointer. sprite orders are aligned to $xx00, so to get the right order, we just take the ID, multiply it by 16, 
-    ;then take the high bit of the sprite order pointer
-    ;ld a, bank(PlayerSpriteOrders)
-    ;ld [set_bank], a
     or a ; clear the carry flag - rla uses the carry flag, this cost me like 20 minutes to fix
     ld a, [player_direction]
     rla  ; a = a * 4

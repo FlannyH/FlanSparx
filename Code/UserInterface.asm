@@ -1,4 +1,5 @@
 SECTION "User Interface", ROM0
+;Update the tiles on the window layer for the gem count and health bar
 UpdateHUD:
     push hl
 

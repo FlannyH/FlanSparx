@@ -1,3 +1,4 @@
+include "Code/ObjectSpriteWrite.asm"
 include "Code/ObjNone.asm"
 include "Code/ObjEnemyStill.asm"
 include "Code/ObjGemRed.asm"
@@ -23,7 +24,7 @@ include "Code/ObjEnemyMove.asm"
 
 SECTION "Objects", ROM0
 
-;Input: A - object id, HL - VRAM position
+;Input: A - object id, HL - VRAM background tilemap position of the tile of the spawned object
 SpawnObject:
     push hl
     push bc
@@ -55,7 +56,7 @@ SpawnObject:
     ld e, a
 
 ;Claim a object slot -> C
-    call ClaimSpriteSlot
+    call ClaimObjectSlot
     inc c ; cp $ff
     ; if c == $ff, it means the object already exists, so do not spawn
     jr z, .end
@@ -119,9 +120,10 @@ SpawnObject:
     ei
     ret
 
+;Find the first empty slot in the array to fit the object into
 ;Input B - object id
 ;Output C - object slot
-ClaimSpriteSlot:
+ClaimObjectSlot:
     push hl
     ld hl, object_slots_occupied
 
@@ -140,7 +142,7 @@ ClaimSpriteSlot:
         ld a, [hl] ; read entry
         or a ; cp 0 ; if free
         jr z, .freeSlotInRegC
-        cp $ff ; if free
+        inc a ; cp $ff ; if free
         jr z, .freeSlotInRegC
         inc l
         inc c
@@ -160,6 +162,7 @@ ClaimSpriteSlot:
     pop hl
     ret
 
+;Update OAM to display sprites
 ;DE - pointer to object_slots_occupied index -> object_table
 ;HL - pointer to OAM
 ;B - index counter
@@ -263,128 +266,9 @@ UpdateObjectOAM:
     pop hl
 
     inc e
-.leftSprite
-    ;LEFT SPRITE
-    ; Y position
-    ;load coordinates - abs_scroll_y
-    ld a, [abs_scroll_y]
 
-    ld b, a
-    ;get fine offset y -> C
-    inc e
-    inc e
-    inc e
-    inc e
-    ld a, [de]
-    ld c, a
-    dec e
-    dec e
-    dec e
-    dec e
-    ld a, [de]
-    
-    ;position from 16x16 tile -> pixel
-    or a
-    rla
-    rla
-    rla
-    sub b
-    add c ; fine position offset
-
-    ld [hl+], a ; write to shadow oam
-
-    ; X position
-    ;load coordinates - abs_scroll_x, and check if not too far off screen
-    inc e
-
-    inc e
-    inc e
-    inc e
-    inc e
-    ld a, [de]
-    ld c, a
-    dec e
-    dec e
-    dec e
-    dec e
-    ld a, [abs_scroll_x]
-    ld b, a
-    ld a, [de]
-    
-    ;position from 16x16 tile -> pixel
-    or a
-    rla
-    rla
-    rla
-    sub 12 ; sprite offset
-    sub b
-    add c ; fine position x
-
-    ld [hl+], a ; write to shadow oam
-
-    inc l
-    inc l
-    dec e
-.rightSprite
-    ;RIGHT SPRITE
-    ; Y position
-    ;load coordinates - abs_scroll_y
-    ld a, [abs_scroll_y]
-
-    ld b, a
-    ;get fine offset y -> C
-    inc e
-    inc e
-    inc e
-    inc e
-    ld a, [de]
-    ld c, a
-    dec e
-    dec e
-    dec e
-    dec e
-    ld a, [de]
-    
-    ;position from 16x16 tile -> pixel
-    or a
-    rla
-    rla
-    rla
-
-    sub b
-    add c
-    ld [hl+], a
-
-    ; X position
-    ;load coordinates - abs_scroll_x
-    inc e
-    ;get fine offset x -> C
-    inc e
-    inc e
-    inc e
-    inc e
-    ld a, [de]
-    ld c, a
-    dec e
-    dec e
-    dec e
-    dec e
-    ld a, [abs_scroll_x]
-    ld b, a
-    ld a, [de]
-    
-    ;position from 16x16 tile -> pixel
-    or a
-    rla
-    rla
-    rla
-    sub 4
-
-    sub b
-    add c
-    ld [hl+], a
-    jr .afterUpdate
-
+    call WriteSprite
+    ;jr .afterUpdate
 
 .thisIsATile
     jr .afterUpdate
@@ -705,6 +589,7 @@ ObjectDespawnCheck:
 
 RunSubroutine:
     jp hl
+
 
 SECTION "Object Subroutines", ROM0, ALIGN[8]
 ObjectSubroutines: ; Object logic

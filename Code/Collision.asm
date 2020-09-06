@@ -1,5 +1,5 @@
 SECTION "Collision Detection", ROM0
-;
+;Gets the tile ID of the tile in front of the player
 GetCollisionIDInFrontOfPlayer:
     push hl
     push bc
@@ -7,7 +7,6 @@ GetCollisionIDInFrontOfPlayer:
 
     call CalculateCollisionDetectionOffset
 
-    or a ; reset carry flag
 
     ;Get player tile X position
     ld a, [player_x] ; player_x -> b
@@ -17,6 +16,7 @@ GetCollisionIDInFrontOfPlayer:
     add b ; a += b
     add d ; x offset
     
+    or a ; reset carry flag
     rra
     rra
     rra

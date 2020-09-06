@@ -1,4 +1,5 @@
 SECTION "Player Object Collision", ROM0
+;Check if the player is touching any objects, if so, run the player collision subroutine for that object
 PlayerObjectCollision:
     ;Loop through all objects
     ld de, object_table

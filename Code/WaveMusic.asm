@@ -2,6 +2,7 @@ SECTION "Timer", ROM0[$50]
 	jp ReadNextPartWave
 
 SECTION "WaveUpdate", ROM0
+;Setup the variables and timers for the wave player
 WaveStart:
 ;Start counter
 ld a, TACF_START | TACF_4KHZ
@@ -34,6 +35,7 @@ sub 8 ; ld a, -16
 
 ret
 
+;Update the wave buffer to play the next part of the audio
 ReadNextPartWave:
     di
     push af
@@ -41,8 +43,6 @@ ReadNextPartWave:
     push de
     push hl
 ;Read music state from ram
-    ;ld a, [music_registers]
-    ;ld b, a
 	ld hl, music_registers+1
 	ld c, [hl]
 	inc l

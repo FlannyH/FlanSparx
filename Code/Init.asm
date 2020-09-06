@@ -1,5 +1,5 @@
 SECTION "Init", ROM0
-
+;Setup variables, registers, cpu mode, palettes, VRAM data, interrupts, RAM, stack, all that good stuff
 Init:
 	push af ; A contains game system flag, store it for now while we clear ram
 

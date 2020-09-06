@@ -1,4 +1,5 @@
 SECTION "Tilemap Loader Macros", ROM0
+;Write a 16x16 tile from the tilemap data pointer to by DE, to VRAM location pointed to by HL
 write16x16tileToVRAM: MACRO
 	di;
     ;Load tile bank
@@ -38,6 +39,8 @@ write16x16tileToVRAM: MACRO
 		ld [hl], a ; write byte to vram
 		ei
 ENDM
+;Get the colour palette of the tile pointed to by DE, and write it to VRAM
+;Only gets run on Gameboy Color
 ApplyPalette: MACRO
 ;get into position
 	dec hl
@@ -78,7 +81,7 @@ ApplyPalette: MACRO
 	ei
 	pop de
 ENDM
-;Function used in both horizontal and vertical strip functions; make it a global function to save rom space
+;Macro used in both horizontal and vertical strip functions, calculates the y offset for the tilemap pointer
 yOffsetLoopRender: MACRO
 	inc c
 

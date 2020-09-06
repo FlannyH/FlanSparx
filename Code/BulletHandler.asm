@@ -1,7 +1,6 @@
 SECTION "Bullet Handler", ROM0
-;Spawn a bullet
-;arguments:
-;arg1 - direction
+;Spawns a bullet at the player's position, in the current player direction
+;Modifies A and HL
 TryToSpawnBullet:
     push bc
     push de
@@ -96,10 +95,16 @@ TryToSpawnBullet:
     pop bc
     ret
 
+;Moves bullets and does collision checks
+;Modifies all registers
+;Input:
+; B - bit flag/counter
+; C - current bullet ID
+; HL - shadow oam address of current bullet
 UpdateBulletObjects:
     ;First count down the timer 
     ld a, [bullet_fire_timer]
-    or a ; cp 0 ;if timer == 0, don't dec timer, otherwise, do dec timer
+    or a ; cp 0 ; only dec timer if timer > 0
     jr z, .dontDecTimer
     dec a
     ld [bullet_fire_timer], a
@@ -227,12 +232,13 @@ UpdateBulletObjects:
     ret
 
 SECTION "Bullet Direction LUT", ROM0,ALIGN[4]
+;Speed vectors for every bullet direction
 direction2vector_bullet:
     db 0, -6 ;N
-    db 6, -6 ;NE
+    db 5, -5 ;NE
     db 6, 0  ;E
-    db 6, 6  ;SE
+    db 5, 5  ;SE
     db 0, 6  ;S
-    db -6, 6  ;SW
+    db -5, 5  ;SW
     db -6, 0  ;W
-    db -6, -6  ;NW
+    db -5, -5  ;NW

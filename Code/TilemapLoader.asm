@@ -25,10 +25,8 @@ GetMapMetadata:
 	pop de
 	pop bc
 	ret
-;
-;Loads a horizontal strip of tiles from a level,
-;into video ram.
-;vertical offset should be put in C
+	
+;Loads a horizontal strip of tiles from a level into VRAM
 RenderHorizontalStrip:
 	push bc
 	push de
@@ -188,7 +186,7 @@ RenderHorizontalStrip:
 	pop bc
 	ret	
 
-;
+;Loads a vertical strip of tiles from a level in to VRAM
 RenderVerticalStrip:
 	push bc
 	push de
@@ -357,8 +355,7 @@ RenderVerticalStrip:
 	pop bc
 	ret	
 
-;
-;Copy a whole screen of tiles to VRAM	
+;Copy a whole screen worth of tiles to VRAM	
 RenderScreen:
 	push bc
 	push hl
@@ -381,7 +378,7 @@ RenderScreen:
 	
 	ret
 
-;Copy a whole screen of tiles to VRAM, but in vertical strips, for debugging reasons	
+;Copy a whole screen worth of tiles to VRAM, but in vertical strips, for debugging reasons	
 RenderScreenVertical:
 	push bc
 	push hl
@@ -404,7 +401,6 @@ RenderScreenVertical:
 	
 	ret
 	
-;
 ;Scroll the tile viewport based on camera_x, camera_y, scroll_x and scroll_y
 ScrollScreen:
 	push bc
@@ -459,7 +455,6 @@ ScrollScreen:
 	pop bc
 	ret
 	
-;
 ;Scroll the screen 1 pixel to the right
 ScrollRight:
 	;Load scroll_x into A, increase it, check if it's 8,
@@ -485,7 +480,6 @@ ScrollRight:
 	pop hl
 	ret
 	
-;
 ;Scroll the screen 1 pixel to the left, and load a new row of tiles if necessary
 ScrollLeft:
 	;Load scroll_x into A, decrease it, check if it's -8,
@@ -510,7 +504,7 @@ ScrollLeft:
 	call ScrollScreen
 	pop hl
 	ret
-;
+
 ;Scroll the screen 1 pixel down
 ScrollDown:
 	;Load scroll_y into A, increase it, check if it's 16,
@@ -536,8 +530,6 @@ ScrollDown:
 	pop hl
 	ret
 	
-
-;
 ;Scroll the screen 1 pixel up
 ScrollUp:
 	;Load scroll_y into A, decrease it, check if it's -16,

@@ -1,4 +1,5 @@
 SECTION "Objects Collision", ROM0
+;Collision check for bullets against objects (e.g. kill an enemy if a bullet hits it)
 ;Input: HL - start of current bullet sprite
 BulletObjectCollision:
     ;Loop through all objects
@@ -29,9 +30,7 @@ BulletObjectCollision:
         dec e
 
 
-        ;otherwise
-        ld d,d
-        ;get object Y -> B
+        ;otherwise, get object Y -> B
         ld a, [bc]
         push bc
         ld b, a
@@ -122,6 +121,7 @@ BulletObjectCollision:
 
         jr .objectLoop
 
+;Force a bullet to despawn
 ;Input: HL - OAM pointer to bullet
 deleteCurrentBullet:
         ;Delete this bullet
@@ -142,6 +142,7 @@ deleteCurrentBullet:
         pop hl
         ret
 
+;Force an object to despawn
 ;Input: DE - at object_table.current_object.type
 DeleteObject:
     pop hl
@@ -182,6 +183,7 @@ DeleteObject:
     ;Then return from this subroutine
     ret
 
+;Update the destroyed objects list, this makes it so the object doesn't respawn when you re-enter the area
 ;Input: A - object id
 SetObjectDestroyed:
     push de

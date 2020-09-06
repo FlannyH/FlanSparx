@@ -1,5 +1,6 @@
 SECTION "ObjEnemyMove", ROM0
 ;Input: DE - pointer to the 2nd byte of object table entry ([DE] points to the type)
+;Modifies all registers
 ObjEnemyMove_Update:
     call ObjEnemyStill_Update ; reuse the stationary enemy code
     ;ObjEnemyStill_Update leaves the direction in register A
@@ -133,8 +134,6 @@ ObjEnemyMove_Update:
     ld a, e
     sub 6
     ld e, a
-    ;jp debugHalt ; hang
-
 
     ret
 

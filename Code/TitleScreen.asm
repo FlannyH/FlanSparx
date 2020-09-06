@@ -1,4 +1,5 @@
 SECTION "Title Screen", ROM0
+;Load all title screen related graphics data into VRAM, and clean sprite OAM while we're at it, as that's garbage data on Gameboy Classic
 PrepareTitleScreenData:
     di
 ;PALETTES
@@ -76,7 +77,6 @@ PrepareTitleScreenData:
 	ld a, (LCDCF_ON + LCDCF_OBJON + LCDCF_BGON)
 	ld [rLCDC], a
     ret
-
 
 Scene_TitleScreen:
     call PrepareTitleScreenData
